@@ -1,2 +1,2 @@
 # cgparam
-Parameterization of a Coarse-Grained Model
+Parameterization of a coarse-grained model with Stillinger-Weber potentials.

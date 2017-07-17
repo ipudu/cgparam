@@ -1,0 +1,6 @@
+numpy
+six
+progress
+scipy
+matplotlib
+pyyaml

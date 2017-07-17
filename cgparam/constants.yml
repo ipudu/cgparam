@@ -1,0 +1,10 @@
+atoms: mW, CH3, C, O, N, CH3N
+a: 1.8
+lambda: 0
+gamma: 1.2
+costheta: -0.333333333
+A: 7.049556277
+B: 0.602224558
+p: 4
+q: 0
+tol: 0
