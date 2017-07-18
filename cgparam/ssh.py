@@ -23,6 +23,9 @@ class SSH(object):
             f.write('exit\n')
             f.write('ENDSSH\n')
 
+    def upload(self):
+        pass
+
 if __name__ == '__main__':
     connector = SSH('pdu','qb.loni.org')
     connector.make_bash('test.sh')
