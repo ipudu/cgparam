@@ -7,3 +7,46 @@
 # 
 # Released under the GNU License
 ###############################################################################
+
+class VMD(object):
+    """control VMD"""
+
+    def __init__(self, atoms):
+        self.atoms = atoms
+
+    def gofr_tcl(self, center, around, s=5000, e=-1, freq=1):
+        """make gofr TCL input for VMD"""
+        i = self.atoms.index(center)
+        j = self.atoms.index(around)
+
+        filename = 'gofr_{}-{}.tcl'.format(center, around)
+        
+        with open(filename, 'w') as f:
+            f.write('set sel1 [atomselect top "type {:d}"]\n'.format(i))
+            f.write('set sel2 [atomselect top "type {:d}"]\n'.format(j))
+            f.write('set gr [measure gofr ')
+            f.write('$sel1 $sel2 delta .1 rmax 10 usepbc 1 selupdate 1 ')
+            f.write('first {:d} last {:d} step {:d}]\n'.format(s, e, freq))
+            f.write('set outfile [open gofr_{}-{}.dat w]\n'.format(center, around))
+            f.write('set r [lindex $gr 0]\n')
+            f.write('set gr2 [lindex $gr 1]\n')
+            f.write('set igr [lindex $gr 2]\n')
+            f.write('foreach j $r k $gr2 l $igr {\n')
+            f.write('    puts $outfile "$j $k $l"\n')
+            f.write('}\n')
+            f.write('close $outfile\n')
+    
+    def load_tcl(self, data, dcd, pairs, load_t=10000, interval_t=1000):
+        """create TCL input of reading data and traj for VMD"""
+        with open('load.tcl', 'w') as f:
+            f.write('topo readlammpsdata {}\n'.format(data))
+            f.write('mol addfile {}\n'.format(dcd))
+            for a, b in pairs:
+                f.write('after {:d} source gofr_{}-{}.tcl\n'.format(load_t, a, b))
+                load_t += interval_t
+
+if __name__ == '__main__':
+    v = VMD(['mW','O'])
+    v.gofr_tcl('O', 'mW')
+    pairs = [['O', 'mW'], ['CH3', 'mW']]
+    v.load_tcl('system.data', 'system.dcd', pairs)
