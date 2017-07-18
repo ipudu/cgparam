@@ -17,14 +17,16 @@ import csv
 import pandas as pd
 import numpy as np
 from itertools import product
-from yaml import load, dump
+from .base import loader
 
+    def __init__(self, filename, center, bins=100):
+        super(Translational, self).__init__(filename, center, bins)
 
 class SW(object):
     """Stillinger-Weber potentials"""
 
     def __init__(self, filename):
-        self.constants = self.constants_reader(filename)
+        super(Loader, self).__init__(filename)
         atoms = self.constants['atoms'].replace(' ', '').split(',')
         self.combs = list((product(atoms, repeat=3)))
 
@@ -37,12 +39,6 @@ class SW(object):
     def csv_writer(self, df, filename):
         """ write to a CSV file"""
         df.to_csv(filename, sep='\t', index=False, encoding='utf-8')
-
-    def constants_reader(self, filename):
-        """ read constants from a yml format file"""
-        stream = file(filename, 'r')
-        constants = load(stream)
-        return constants
 
     def lammps_input_reader(self, filename):
         """"read lammps SW input"""
