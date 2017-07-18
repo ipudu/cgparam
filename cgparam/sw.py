@@ -34,9 +34,9 @@ class SW(object):
         header = list(df.columns)
         return header, df
 
-    def csv_writer(self, filename, df):
+    def csv_writer(self, df, filename):
         """ write to a CSV file"""
-        df.to_csv(filename, sep='\lt', index=False, encoding='utf-8')
+        df.to_csv(filename, sep='\t', index=False, encoding='utf-8')
 
     def constants_reader(self, filename):
         """ read constants from a yml format file"""
@@ -109,5 +109,6 @@ if __name__ == '__main__':
     a = SW('constants.yml')
     header_b2, b2 = a.csv_reader('2b.csv')
     header_b3, b3 = a.csv_reader('3b.csv')
+    #a.csv_writer(b2, '2b_test.csv')
     #b3 = a.modify_data(b3, 'lambda', 6.0, 'mW', 'mW', 'mW')
     a.lammps_input_writer('test.sw', b2, b3)
