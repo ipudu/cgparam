@@ -46,9 +46,7 @@ class SW(Loader):
 
     def lammps_input_writer(self, filename, b2, b3):
         """write lammps SW input"""
-        if filename:
-            filename += '.sw'
-        else:
+        if not filename:
             filename = 'system.sw'
 
         with open(filename,'w') as f:
@@ -105,11 +103,3 @@ class SW(Loader):
         """line's format of lammps SW input"""
         s = '{:4} {:4} {:4} {:.3f} {:.4f} {:.1f} {:.2f} {:1f} {:f} {:f} {:f} {:d} {:d} {:d}\n'.format(*info)
         return s
-
-if __name__ == '__main__':
-    a = SW('constants.yml')
-    header_b2, b2 = a.csv_reader('2b.csv')
-    header_b3, b3 = a.csv_reader('3b.csv')
-    #a.csv_writer(b2, '2b_test.csv')
-    #b3 = a.modify_data(b3, 'lambda', 6.0, 'mW', 'mW', 'mW')
-    a.lammps_input_writer('test.sw', b2, b3)
