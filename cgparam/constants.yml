@@ -1,4 +1,10 @@
+# LAMMPS input dir
+lammps: original
+
+# The order of atoms should be exactly the same as LAMMPS input
 atoms: mW, CH3, C, O, N, CH3N
+
+# SW potential constants
 a: 1.8
 lambda: 0
 gamma: 1.2
@@ -8,3 +14,7 @@ B: 0.602224558
 p: 4
 q: 0
 tol: 0
+
+# SSH sections
+server: foo.bar
+username: root
