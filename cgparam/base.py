@@ -10,7 +10,7 @@
 
 from yaml import load, dump
 
-class loader(object):
+class Loader(object):
     """base class for loading input file"""
 
     def __init__(self, filename):
