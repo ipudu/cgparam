@@ -20,9 +20,9 @@ class plot(object):
     def __init__(self):
         pass
     
-    def plot_gr_r(self, filename, outname):
+    def plot_gr_r(self, filename):
         """plot radial distribution function and coordination number"""
-        data = np.loadtxt(filename)
+        data = np.loadtxt(filename+'.dat')
 
         #r, gr, c
         r = data[:,0]
@@ -48,9 +48,9 @@ class plot(object):
         p2.circle(r, c, legend="Int(r)")
         p2.line(r, c, legend="Int(r)")
         
-        output_file(outname+".html")
+        output_file(filename + ".html")
         save(gridplot(p1, p2, ncols=2, plot_width=400, plot_height=400))
 
 if __name__ == '__main__':
     a = plot()
-    a.plot_gr_r('gofr_AA_O-O.dat','gofr_AA_O-O')
+    a.plot_gr_r('gofr_AA_O-O')
