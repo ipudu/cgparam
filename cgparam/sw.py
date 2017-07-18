@@ -10,6 +10,7 @@
 
 from __future__ import print_function, division
 import time
+import datetime
 import sys
 from six.moves import range, zip
 
@@ -35,6 +36,8 @@ class SW(Loader):
 
     def csv_writer(self, df, filename):
         """ write to a CSV file"""
+        time = datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+'_'
+        filename = time + filename
         df.to_csv(filename, sep='\t', index=False, encoding='utf-8')
 
     def lammps_input_reader(self, filename):
@@ -85,18 +88,18 @@ class SW(Loader):
                 f.write(self.line_format(info))
                 l = self.constants['lambda']
     
-    def modify_data(self, df, paramname, number, i, j, k=None):
+    def modify_data(self, b2, b3, paramname, number, i, j, k=None):
         """change parameter of SW potentials"""
         if k is None:
-            for index, row in df.iterrows():
+            for index, row in b2.iterrows():
                 if set([i, j]) == set([row['i'], row['j']]):
-                    df.set_value(index, paramname, number)
+                    b2.set_value(index, paramname, number)
         else:
-            for index, row in df.iterrows():
+            for index, row in b3.iterrows():
                 if set([i, j, k]) == set([row['i'], row['j'], row['k']]):
-                     df.set_value(index, paramname, number)
+                     b3.set_value(index, paramname, number)
 
-        return df
+        return b2, b3
 
     def line_format(self, info):
         """line's format of lammps SW input"""
