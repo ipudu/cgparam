@@ -9,6 +9,7 @@
 ###############################################################################
 
 from __future__ import print_function, division
+import os
 import time
 import datetime
 import sys
@@ -36,8 +37,13 @@ class SW(Loader):
 
     def csv_writer(self, df, filename):
         """ write to a CSV file"""
-        time = datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+'_'
-        filename = time + filename
+        time = '_' + datetime.datetime.now().strftime("%y-%m-%d-%H-%M")
+        
+        #get the prefix of the filename
+        base = os.path.basename(filename)
+        filename = os.path.splitext(base)[0]
+
+        filename = filename + time + '.csv'
         df.to_csv(filename, sep='\t', index=False, encoding='utf-8')
 
     def lammps_input_reader(self, filename):
