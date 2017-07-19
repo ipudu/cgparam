@@ -47,9 +47,3 @@ class VMD(Loader):
             for a, b in pairs:
                 f.write('after {:d} source gofr_{}-{}.tcl\n'.format(load_t, a, b))
                 load_t += interval_t
-
-if __name__ == '__main__':
-    v = VMD(['mW','O'])
-    v.gofr_tcl('O', 'mW')
-    pairs = [['O', 'mW'], ['CH3', 'mW']]
-    v.load_tcl('system.data', 'system.dcd', pairs)
