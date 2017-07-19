@@ -21,9 +21,9 @@ class Plot(Loader):
     """plotting class"""
     def __init__(self, filename):
         super(Plot, self).__init__(filename)
-        self.gofr_r = self.constants['gofr_r']
+        self.gofr = self.constants['gofr']
 
-    def plot_gr_r(self, filename):
+    def plot_gofr(self, filename):
         """plot radial distribution function and coordination number"""
         data = np.loadtxt(filename)
 
