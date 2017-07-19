@@ -11,7 +11,7 @@
 from __future__ import print_function
 import argparse
 
-from . import sw, plot
+from . import sw, vmd, plot
 
 def get_parser():
     parser = argparse.ArgumentParser(description='cgparam: Parameterization of a \
@@ -89,6 +89,18 @@ def command_line_runner():
                 #generated SW input for LAMMPS
                 tasker.lammps_input_writer(filename, b2, b3)
         
+        #VMD
+        if args['task'] == 'vmd':
+            tasker = vmd.VMD(args['input'])
+            data = tasker.constants['data']
+            trajectory = tasker.constants['trajectory']
+            pairs = tasker.constants['gofr']
+
+            for center, around in pairs:
+                tasker.gofr_tcl(center, around)
+
+            tasker.load_tcl(data, trajectory, pairs)
+
         #plot
         if args['task'] == 'plot':
             tasker = plot.Plot(args['input'])

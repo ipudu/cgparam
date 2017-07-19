@@ -8,16 +8,19 @@
 # Released under the GNU License
 ###############################################################################
 
-class VMD(object):
-    """control VMD"""
+from .base import Loader
 
-    def __init__(self, atoms):
+class VMD(Loader):
+    """control VMD"""
+    def __init__(self, filename):
+        super(VMD, self).__init__(filename)
+        atoms = self.constants['atoms'].replace(' ', '').split(',')
         self.atoms = atoms
 
     def gofr_tcl(self, center, around, s=5000, e=-1, freq=1):
         """make gofr TCL input for VMD"""
-        i = self.atoms.index(center)
-        j = self.atoms.index(around)
+        i = self.atoms.index(center) + 1
+        j = self.atoms.index(around) + 1
 
         filename = 'gofr_{}-{}.tcl'.format(center, around)
         
@@ -36,11 +39,11 @@ class VMD(object):
             f.write('}\n')
             f.write('close $outfile\n')
     
-    def load_tcl(self, data, dcd, pairs, load_t=10000, interval_t=1000):
+    def load_tcl(self, data, trajectory, pairs, load_t=10000, interval_t=1000):
         """create TCL input of reading data and traj for VMD"""
         with open('load.tcl', 'w') as f:
             f.write('topo readlammpsdata {}\n'.format(data))
-            f.write('mol addfile {}\n'.format(dcd))
+            f.write('mol addfile {}\n'.format(trajectory))
             for a, b in pairs:
                 f.write('after {:d} source gofr_{}-{}.tcl\n'.format(load_t, a, b))
                 load_t += interval_t
