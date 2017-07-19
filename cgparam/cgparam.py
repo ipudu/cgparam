@@ -84,8 +84,8 @@ def command_line_runner():
         #plot
         if args['task'] == 'plot':
             tasker = plot.Plot(args['input'])
-            for filename in tasker.gofr_r:
-                tasker.plot_gr_r(filename)
+            for filename in tasker.gofr:
+                tasker.plot_gofr(filename)
 
 if __name__ == '__main__':
     command_line_runner()
