@@ -53,7 +53,7 @@ class SW(Loader):
     def lammps_input_writer(self, filename, b2, b3):
         """write lammps SW input"""
         if not filename:
-            filename = 'system.sw'
+            filename = 'original.sw'
 
         with open(filename,'w') as f:
             current = time.asctime(time.localtime(time.time()))
