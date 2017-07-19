@@ -24,8 +24,6 @@ def get_parser():
                     help=' parameter files(CSV format): twobody, threebody')
     parser.add_argument('-m','--modification', type=str,
                     help=' arguments to modify SW CSV file (order: paramname,number,i,j,k)')
-    parser.add_argument('-s','--sw', default=None, type=str,
-                    help=' output name of Stillinger-Web input for LAMMPS (default: None)')
 
     return parser
 
@@ -47,7 +45,7 @@ def command_line_runner():
                 two, three = args['parameter'].split(',')
                 header_b2, b2 = tasker.csv_reader(two)
                 header_b3, b3 = tasker.csv_reader(three)
-                tasker.lammps_input_writer(args['sw'], b2, b3)
+                tasker.lammps_input_writer(None, b2, b3)
 
         #SWM
         if args['task'] == 'swm':
@@ -65,21 +63,31 @@ def command_line_runner():
                     m = args['modification'].replace(' ', '').split(',')
                     if len(m) == 4:
                         paramname, number, i, j = m
+
                         b2, b3 = tasker.modify_data(b2, b3, 
                                                     paramname, number, 
                                                     i, j)
+                        
+                        #filename for SW input
+                        number = '_'.join(number.split('.'))
+                        filename = '-'.join([paramname, number, i, j])
                     else:
                         paramname, number, i, j, k = m
+
                         b2, b3 = tasker.modify_data(b2, b3, 
                                                     paramname, number, 
                                                     i, j, k)
+                        
+                        #file name for SW input
+                        number = '_'.join(number.split('.'))
+                        filename = '-'.join([paramname, number, i, j, k])
 
                 #generated new twobody and threebody parameters
                 tasker.csv_writer(b2, two)
                 tasker.csv_writer(b3, three)
-
+                filename += '.sw'
                 #generated SW input for LAMMPS
-                tasker.lammps_input_writer(args['sw'], b2, b3)
+                tasker.lammps_input_writer(filename, b2, b3)
         
         #plot
         if args['task'] == 'plot':
