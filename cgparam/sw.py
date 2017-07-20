@@ -82,9 +82,6 @@ class SW(Loader):
 
                 #threebody
                 for index, row in b3.iterrows():
-                    if [row['i'], row['j'], row['k']] == ['mW', 'mW', 'O']:
-                        #print([i, j, k])
-                        pass
                     if set([i, j, k]) == set([row['i'], row['j'], row['k']]):
                         l = row['lambda']
                         costheta = row['costheta']
