@@ -85,6 +85,7 @@ class SW(Loader):
                     if set([i, j, k]) == set([row['i'], row['j'], row['k']]):
                         l = row['lambda']
                         costheta = row['costheta']
+
                 info = [i,j,k,epsilon,sigma, a, l, gamma, costheta, A, B, p, q, tol]
                 f.write(self.line_format(info))
                 l = self.constants['lambda']
