@@ -8,3 +8,9 @@
 # Released under the GNU License
 ###############################################################################
 
+class Fit(object):
+    """fitting class"""
+
+    def _init__(self):
+        pass
+    
