@@ -14,8 +14,8 @@ class VMD(Loader):
     """control VMD"""
     def __init__(self, filename):
         super(VMD, self).__init__(filename)
-        atoms = self.constants['atoms'].replace(' ', '').split(',')
-        self.atoms = atoms
+        #atoms = self.constants['atoms'].replace(' ', '').split(',')
+        self.atoms = self.constants['atoms']
 
     def gofr_tcl(self, center, around, s=5000, e=-1, freq=1):
         """make gofr TCL input for VMD"""
@@ -39,7 +39,7 @@ class VMD(Loader):
             f.write('}\n')
             f.write('close $outfile\n')
     
-    def load_tcl(self, data, trajectory, pairs, load_t=10000, interval_t=1000):
+    def load_tcl(self, data, trajectory, pairs, load_t=10000, interval_t=5000):
         """create TCL input of reading data and traj for VMD"""
         with open('load.tcl', 'w') as f:
             f.write('topo readlammpsdata {}\n'.format(data))

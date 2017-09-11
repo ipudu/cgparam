@@ -26,7 +26,8 @@ class SW(Loader):
 
     def __init__(self, filename):
         super(SW, self).__init__(filename)
-        atoms = self.constants['atoms'].replace(' ', '').split(',')
+        #atoms = self.constants['atoms'].replace(' ', '').split(',')
+        atoms = self.constants['atoms']
         self.combs = list((product(atoms, repeat=3)))
 
     def csv_reader(self, filename):
